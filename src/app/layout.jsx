@@ -3,7 +3,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 import Header from "@/components/template/header"
 import Footer from "@/components/template/footer"
-import TawkProvider from "./providers/tawkMessenger/TawkProvider";
+// import TawkProvider from "./providers/tawkMessenger/TawkProvider";
 
 const inter = Poppins({ subsets: ["latin"], weight: ['100', '300', '700'], variable: '--poppins-font' });
 
@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}><Providers>
-        <TawkProvider />
+        {/* <TawkProvider /> */}
         <Header></Header>
         {children}
         <Footer></Footer>

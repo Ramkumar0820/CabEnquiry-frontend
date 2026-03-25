@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 
 const Footer = () => {
   const router = useRouter();
+  const currentYear = new Date().getFullYear();
   return (
     <footer className="bg-slate-100 text-black pt-12 pb-5 px-6 md:px-20">
       <div className="container mx-auto">
@@ -15,7 +16,7 @@ const Footer = () => {
           <div className="flex flex-col items-center md:items-start w-full md:w-1/3 ">
             <Image src="/logo1.png" className='object-contain rounded-md overflow-hidden' alt="CarX Logo" width={120} height={70} />
             <p className="mt-4 text-center md:text-left text-gray-700">
-              Unlock unbeatable offers on the newest models and take the wheel of your dream car today.
+              Book reliable and affordable cab services with Madurai SRM Travels. Enjoy safe, comfortable rides for local and outstation trips anytime.
             </p>
             <div className="flex justify-center md:justify-start gap-4 mt-4">
               {/* <div className="bg-[#1877F2] p-2 rounded-full">
@@ -36,7 +37,7 @@ const Footer = () => {
               <h3 className="font-bold text-lg text-gray-900 mb-0">Quick Links</h3>
               <p onClick={() => router.push('/')} className="hover:text-gray-500 cursor-pointer">Home</p>
               <p onClick={() => router.push('/about-us')} className="hover:text-gray-500 cursor-pointer">About Us</p>
-              <p onClick={() => router.push('/cars')} className="hover:text-gray-500 cursor-pointer">Cars</p>
+              <p onClick={() => router.push('/booking')} className="hover:text-gray-500 cursor-pointer">Book a Cab</p>
               <p onClick={() => router.push('/contact-us')} className="hover:text-gray-500 cursor-pointer">Contact</p>
             </div>
           </div>
@@ -45,18 +46,18 @@ const Footer = () => {
           <div className="w-full md:w-1/3 text-center md:text-left">
             <h3 className="font-bold text-lg text-gray-900 mb-4">Contact Us</h3>
             <p className="flex items-center justify-center md:justify-start text-gray-700 mb-2">
-              <FaMapMarkerAlt className="mr-2" /> 123 Dream Car Avenue, CA 98765
+              <FaMapMarkerAlt className="mr-2" /> Madurai, Tamil Nadu, India
             </p>
             <p className="flex items-center justify-center md:justify-start text-gray-700 mb-2">
-              <FaEnvelope className="mr-2" /> info@chidex.com
+              <FaEnvelope className="mr-2" /> ranjithkumarsrmtravels@gmail.com
             </p>
             <p className="flex items-center justify-center md:justify-start text-gray-700 mb-2">
-              <FaPhoneAlt className="mr-2" /> (123) 456-7890
+              <FaPhoneAlt className="mr-2" /> +91 98765 43210
             </p>
           </div>
         </div>
         <p className="text-center md:text-left text-sm text-gray-600 mt-8">
-          © 2024 Chidex Auto Sales. All rights reserved.
+          © {currentYear} Madurai SRM Travels. All rights reserved. Designed with ❤️
         </p>
       </div>
     </footer>
