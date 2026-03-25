@@ -11,7 +11,7 @@ export async function generateMetadata({ params }) {
       description: `Discover the best ${params.slug} cars available this year. Get top deals, expert reviews, and detailed comparisons to find your perfect car.`,
       images: [
         {
-          url: '/logo1.png', 
+          url: '/logo.png', 
           alt: `Best ${params.slug} Cars`
         }
       ],

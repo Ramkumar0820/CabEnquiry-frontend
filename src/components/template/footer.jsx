@@ -14,7 +14,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-start gap-10">
           {/* Company Info */}
           <div className="flex flex-col items-center md:items-start w-full md:w-1/3 ">
-            <Image src="/logo1.png" className='object-contain rounded-md overflow-hidden' alt="CarX Logo" width={120} height={70} />
+            <Image src="/logo.png" className='object-contain rounded-md overflow-hidden' alt="SRM Logo" width={120} height={70} />
             <p className="mt-4 text-center md:text-left text-gray-700">
               Book reliable and affordable cab services with Madurai SRM Travels. Enjoy safe, comfortable rides for local and outstation trips anytime.
             </p>
@@ -48,12 +48,12 @@ const Footer = () => {
             <p className="flex items-center justify-center md:justify-start text-gray-700 mb-2">
               <FaMapMarkerAlt className="mr-2" /> Madurai, Tamil Nadu, India
             </p>
-            <p className="flex items-center justify-center md:justify-start text-gray-700 mb-2">
+            <a href="mailto:ranjithkumarsrmtravels@gmail.com" className="flex items-center justify-center md:justify-start text-gray-700 mb-2">
               <FaEnvelope className="mr-2" /> ranjithkumarsrmtravels@gmail.com
-            </p>
-            <p className="flex items-center justify-center md:justify-start text-gray-700 mb-2">
-              <FaPhoneAlt className="mr-2" /> +91 98765 43210
-            </p>
+            </a>
+            <a href="tel:+917871082904" className="flex items-center justify-center md:justify-start text-gray-700 mb-2">
+              <FaPhoneAlt className="mr-2" /> +91 7871082904
+            </a>
           </div>
         </div>
         <p className="text-center md:text-left text-sm text-gray-600 mt-8">

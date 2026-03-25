@@ -42,8 +42,8 @@ const Header = () => {
       <div className="shadow-1 flex justify-between items-center px-4 py-0 sm:px-8 md:px-16 z-50 sticky top-0 bg-white">
         <Link href="/">
           <img
-            className="h-20 sm:h-20 p-2 cursor-pointer"
-            src="/logo1.png"
+            className="h-20 sm:h-20 p-2 w-full cursor-pointer"
+            src="/logo.png"
             alt="Logo"
           />
         </Link>
@@ -169,7 +169,7 @@ const Header = () => {
         <div className="flex justify-between items-center p-4">
           <img
             className="h-12 cursor-pointer"
-            src="/logo1.png"
+            src="/logo.png"
             alt="Logo"
             onClick={toggleSidebar}
           />
