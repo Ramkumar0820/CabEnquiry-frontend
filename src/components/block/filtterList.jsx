@@ -1,0 +1,367 @@
+import React, { useState, useEffect } from "react";
+import { FaCar, FaGasPump, FaTachometerAlt } from "react-icons/fa";
+import { TbSteeringWheel } from "react-icons/tb";
+import { Divider } from "@nextui-org/divider";
+import { Select, SelectItem } from "@nextui-org/react";
+import { Image, Skeleton } from "@nextui-org/react";
+import Link from "next/link";
+import { Slider } from "@nextui-org/react";
+import { resolveImageUrl, getCurrencySymbol } from "../utils/helper";
+
+function Listing() {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const [listing, setListing] = useState([]);
+  const [selectedMake, setSelectedMake] = useState("");
+  const [selectedModel, setSelectedModel] = useState("");
+  const [makes, setMakes] = useState([]);
+  const [models, setModels] = useState([]);
+  const [color, setColor] = useState([]);
+  const [selectedColor, setSelectedColor] = useState("");
+  const [loading, setLoading] = useState(true);
+  // const [priceValue, setPrice] = useState([1000000]); // Initialize price value as [0]
+  const [priceValue, setPrice] = useState(1000000); // default max
+  const [brand, setBrand] = useState("");
+  
+  //Brand, year, color, features.
+  // Fetch car makes for the select dropdown
+  useEffect(() => {
+    const fetchMakes = async () => {
+      try {
+        const response = await fetch(`${baseUrl}/api/listing/make`);
+        const data = await response.json();
+        setMakes(data);
+      } catch (error) {
+        console.error("Error fetching makes:", error);
+      }
+    };
+
+    fetchMakes();
+  }, []);
+
+  // Fetch colors
+  useEffect(() => {
+    const fetchMakes = async () => {
+      try {
+        const response = await fetch(`${baseUrl}/api/listing/color`);
+        const data = await response.json();
+        setColor(data);
+        console.log("ColorData", data);
+      } catch (error) {
+        console.error("Error fetching makes:", error);
+      }
+    };
+
+    fetchMakes();
+  }, []);
+
+  // Fetch models based on selected make
+  useEffect(() => {
+    const fetchModels = async () => {
+      if (!selectedMake) return;
+
+      try {
+        const response = await fetch(
+          `${baseUrl}/api/listing/model?make=${selectedMake}`,
+        );
+        const data = await response.json();
+        setModels(data);
+        setSelectedModel(""); // Reset selected model when make changes
+      } catch (error) {
+        console.error("Error fetching models:", error);
+      }
+    };
+
+    fetchModels();
+  }, [selectedMake]);
+
+  const limitedListing = listing.slice(0, 8);
+  console.log("Limited", listing);
+  console.log("Limited Listing:", limitedListing);
+
+  // Fetch listings based on selected make, model, color, and price
+  useEffect(() => {
+    const fetchListings = async () => {
+      setLoading(true); // Start loading
+      try {
+        const response = await fetch(`${baseUrl}/api/listing`);
+        let data = await response.json();
+
+        if (selectedMake) {
+          data = data.filter((listing) => listing.make === selectedMake);
+        }
+
+        if (selectedModel) {
+          data = data.filter((listing) => listing.model === selectedModel);
+        }
+
+        // if (selectedColor) {
+        //     data = data.filter(listing => listing.color === selectedColor);
+        // }
+
+        // if (priceValue[0] > 0) {
+        //     const plainPriceValue = parseInt(priceValue[0].toString().replace(/,/g, ''), 10);
+        //     data = data.filter(listing => parseInt(listing.price.replace(/,/g, ''), 10) <= plainPriceValue);
+        // }
+
+        if (priceValue > 0) {
+          data = data.filter(
+            (item) =>
+              Number(item.price.replace(/,/g, "")) <= Number(priceValue)
+          );
+        }
+
+        data = data.filter((listing) => listing.visibility === "Active");
+
+        data.sort((a, b) => new Date(b.date) - new Date(a.date));
+        setListing(data);
+      } catch (error) {
+        console.error("Error fetching listings:", error);
+      } finally {
+        setLoading(false); // End loading
+      }
+    };
+
+    fetchListings();
+  }, [selectedMake, selectedModel, priceValue]);
+
+  const renderSkeleton = () => (
+    <div className="listingCard p-4 mb-4 rounded-lg flex flex-col gap-1 listing-card shadow-md bg-white ">
+      <Skeleton className="h-[180px] w-[100%] rounded-xl mb-2" />
+      <Skeleton className="h-5 w-[100%] mb-1" />
+      <Skeleton className="h-5 w-[60%] mb-1" />
+    </div>
+  );
+
+  return (
+    <div className="p-4">
+      <div className="text-center mt-3">
+        <h1 className="text-2xl p-2 md:text-3xl font-bold md:font-medium">
+          Filter Cars by Make, Model, and Price Range
+        </h1>
+        <p className="mt-2 p-2">
+          Easily search for cars by selecting the make, model, and price range
+          to streamline your filtering process.
+        </p>
+      </div>
+      <div className="flex flex-col md:flex-row justify-center gap-5 items-center my-2 md:my-10 md:gap-10">
+        <div className="flex flex-col items-center w-full max-w-md mb-4">
+          <Select
+            placeholder="Select a make"
+            selectedKeys={selectedMake ? [selectedMake] : []}
+            color="secondary"
+            labelPlacement="outside"
+            className="max-w-md md:w-80 w-11/12"
+            onSelectionChange={(keys) => {
+              const value = Array.from(keys)[0] || "";
+              setSelectedMake(value);
+              setSelectedModel("");
+            }}
+            endContent={
+              selectedMake && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation(); // prevent dropdown open
+                    setSelectedMake("");
+                    setSelectedModel("");
+                  }}
+                  className="text-gray-400 hover:text-red-500"
+                >
+                  ✕
+                </button>
+              )
+            }
+          >
+            {makes?.map((make) => (
+              <SelectItem key={make.make}>
+                {make.make}
+              </SelectItem>
+            ))}
+          </Select>
+        </div>
+
+        <div className="flex flex-col items-center gap-0 w-full h-full max-w-md justify-between mb-4 relative">
+          <Select
+            placeholder="Select a model"
+            selectedKeys={selectedModel ? [selectedModel] : []}
+            color="secondary"
+            labelPlacement="outside"
+            isDisabled={!selectedMake}
+            onSelectionChange={(keys) => {
+              const value = Array.from(keys)[0] || "";
+              setSelectedModel(value);
+            }}
+            className="max-w-md md:w-80 w-11/12"
+            endContent={
+              selectedModel && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedModel("");
+                  }}
+                  className="text-gray-400 hover:text-red-500 mr-2"
+                >
+                  ✕
+                </button>
+              )
+            }
+          >
+            {models.map((model) => (
+              <SelectItem key={model.model} value={model.model}>
+                {model.model}
+              </SelectItem>
+            ))}
+          </Select>
+        </div>
+
+        {/* <div className="flex flex-col items-center gap-0 w-full h-full max-w-md  justify-between mb-4">
+                    <Select
+                        placeholder="Select a Color"
+                        value={selectedColor}
+                        color='secondary'
+                        labelPlacement="outside"
+                        onChange={(e) => {
+                            setSelectedColor(e.target.value);
+                        }}
+                        className="max-w-md md:w-80 w-11/12">
+                        {color?.map(color => (
+                            <SelectItem key={color.id} value={color.color}>
+                                {color.color}
+                            </SelectItem>
+                        ))}
+                    </Select>
+                </div> */}
+
+        <div className="flex flex-col items-center gap-0 w-full h-full max-w-md  justify-between mb-4">
+          {/* <Slider
+            formatOptions={{ style: "currency", currency: "USD" }}
+            step={100}
+            maxValue={1000000}
+            minValue={0}
+            value={priceValue}
+            // onChange={setPrice}
+            onChange={(value) => setPrice(value)}
+            classNames={{
+              base: "max-w-md gap-3 md:w-80 w-11/12",
+              track: "border-s-secondary-100",
+              filler: "bg-gradient-to-r from-secondary-100 to-secondary-500",
+            }}
+            renderThumb={(props) => (
+              <div
+                {...props}
+                className="group p-1 top-1/2 bg-background border-small border-default-200 dark:border-default-400/50 shadow-medium rounded-full cursor-grab data-[dragging=true]:cursor-grabbing"
+              >
+                <span className="transition-transform bg-gradient-to-br shadow-small from-secondary-100 to-secondary-500 rounded-full w-5 h-5 block group-data-[dragging=true]:scale-80" />
+              </div>
+            )}
+          /> */}
+          <Slider
+            formatOptions={{ style: "currency", currency: "USD" }}
+            step={100}
+            maxValue={1000000}
+            minValue={0}
+            value={priceValue}
+            onChange={setPrice}
+            classNames={{
+              base: "max-w-md gap-3 md:w-80 w-11/12",
+              track: "border-s-secondary-100",
+              filler: "bg-gradient-to-r from-secondary-100 to-secondary-500",
+            }}
+            renderThumb={(props) => (
+              <div
+                {...props}
+                className="group p-1 top-1/2 bg-background border-small border-default-200 dark:border-default-400/50 shadow-medium rounded-full cursor-grab data-[dragging=true]:cursor-grabbing"
+              >
+                <span className="transition-transform bg-gradient-to-br shadow-small from-secondary-100 to-secondary-500 rounded-full w-5 h-5 block group-data-[dragging=true]:scale-80" />
+              </div>
+            )}
+          />
+          <p className="text-default-500 font-medium text-small">
+            {/* Selected budget:{" "}
+            {Array.isArray(priceValue) &&
+              priceValue.map((b) => `$${b}`).join(" – ")} */}
+            Selected budget: ${priceValue.toLocaleString()}
+          </p>
+        </div>
+      </div>
+
+      {loading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {renderSkeleton()}
+          {renderSkeleton()}
+          {renderSkeleton()}
+          {renderSkeleton()}
+          {renderSkeleton()}
+          {renderSkeleton()}
+          {renderSkeleton()}
+          {renderSkeleton()}
+        </div>
+      ) : listing.length === 0 ? (
+        <div className="mx-20 m-auto flex justify-center">
+          <img className="w-96 h-96" src="/nodata.jpg" alt="" />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {limitedListing.map((item) => (
+            <div
+              key={item.id}
+              className="relative shadow-md rounded-lg overflow-hidden bg-texcher"
+            >
+              <div className="relative z-10 p-4">
+                <div className="relative mb-2 overflow-hidden rounded-md">
+                  <Link href={`/cars/${item._id}`}>
+                    <img
+                      src={resolveImageUrl(item.image)}
+                      alt={item.title}
+                      className="w-full h-48 object-cover transition-transform duration-300 ease-in-out transform hover:scale-110"
+                    />
+                  </Link>
+                  {item.itemCondition === "Used" && (
+                    <p className="absolute top-2 left-3 bg-red-600 text-white px-2 rounded-md">
+                      {item.itemCondition}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <h1 className="text-blue-950 text-lg font-semibold flex justify-between items-center">
+                    <Link href={`/cars/${item._id}`}>
+                      {item.title.length > 13
+                        ? `${item.title.substring(0, 13)}...`
+                        : item.title}
+                    </Link>
+                    <p className="text-2xl drop-shadow-xl">
+                      {getCurrencySymbol(item.priceCurrency)} {item.price}
+                    </p>
+                  </h1>
+                  <Divider className="my-1 px-3" />
+                  <div className="flex justify-between items-center">
+                    <p className="flex items-center">
+                      <FaGasPump className="mr-2 text-blue-950" />
+                      {item.fuelType}
+                    </p>
+                    <p className="flex items-center">
+                      <FaCar className="mr-2 text-blue-950" /> {item.bodyType}
+                    </p>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <p className="flex items-center">
+                      <FaTachometerAlt className="mr-2 text-blue-950" />{" "}
+                      {item.mileage} {item.mileageUnit}
+                    </p>
+                    <p className="flex items-center">
+                      <TbSteeringWheel className="mr-2 text-blue-950" />
+                      {item.vehicleTransmission}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default Listing;
