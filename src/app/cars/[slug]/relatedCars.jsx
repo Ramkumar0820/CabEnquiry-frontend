@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaCar, FaGasPump, FaTachometerAlt } from 'react-icons/fa';
+import { FaCar, FaGasPump, FaUsers } from 'react-icons/fa';
 import { TbSteeringWheel } from 'react-icons/tb';
 import { Divider } from "@nextui-org/divider";
 import { Skeleton } from "@nextui-org/react";
@@ -35,7 +35,7 @@ function Listing() {
     const limitedListing = listing.slice(0, 6);
 
     const renderSkeleton = () => (
-        <div className="flex bg-white shadow-1 rounded-lg overflow-hidden bg-texcher1 relative">
+        <div className="flex bg-white shadow-1 rounded-lg overflow-hidden bg-card relative">
             <div className="w-2/4">
                 <Skeleton className="h-40 w-full object-fill" />
             </div>
@@ -71,7 +71,7 @@ function Listing() {
         <div className="">
             <div className="grid grid-cols-1 gap-4">
                 {limitedListing.map((item) => (
-                    <div key={item.id} className="flex bg-white shadow-1 rounded-lg overflow-hidden bg-texcher1 relative">
+                    <div key={item.id} className="flex bg-white shadow-1 rounded-lg overflow-hidden bg-card p-4 relative">
                         <div className="w-2/6 md:w-2/4">
                             <Link href={`/cars/${item._id}`} >
                                 <img
@@ -96,7 +96,7 @@ function Listing() {
                                 <p className="flex items-center mb-1"><FaCar className="mr-2 text-blue-950" /> {item.bodyType} </p>
                             </div>
                             <div className='hidden md:grid grid-cols-2'>
-                                <p className="flex items-center mb-1"><FaTachometerAlt className="mr-2 text-blue-950" /> {item.mileage} {item.mileageUnit} </p>
+                                <p className="flex items-center mb-1"><FaUsers className="mr-2 text-blue-950" /> {item.vehicleSeatingCapacity} Seats </p>
                                 <p className="flex items-center"><TbSteeringWheel className="mr-2 text-blue-950" /> {item.vehicleTransmission} </p>
                             </div>
                         </div>

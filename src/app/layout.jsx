@@ -8,8 +8,9 @@ import Footer from "@/components/template/footer"
 const inter = Poppins({ subsets: ["latin"], weight: ['100', '300', '700'], variable: '--poppins-font' });
 
 export const metadata = {
-  title: "Premium Car Dealer - Find Your Dream Car",
-  description: "Explore a wide range of premium new and used cars at unbeatable prices. Discover your next vehicle with us today!",
+  title: "SRM Tours and Travels | Cab Booking, Airport Pickup & Outstation Trips",
+  description:
+    "SRM Tours and Travels offers reliable cab booking, airport pickup and drop, and outstation travel services across Chennai and Tamil Nadu. Book safe, comfortable, and affordable rides with experienced drivers.",
 };
 
 

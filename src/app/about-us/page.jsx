@@ -1,92 +1,135 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { Spinner } from "@nextui-org/spinner";
-import Listing from "@/components/block/listing";
+import React from "react";
+
+import Image from "next/image";
+import { motion } from "framer-motion";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0 },
+};
 
 const AboutPage = () => {
   return (
     <div>
-      <div className=" w-full m-auto md:w-3/4 px-4 md:mpx-0">
-        <div className="my-10 text-center">
-          <h1>About Us:</h1>
-        </div>
-        <div className="ck-content mt-6 px-4">
-          <p>
-            <strong>Welcome to VasuX</strong>
-          </p>
-          <p>
-            At Vasux, we believe that buying a car should be an exciting and
-            stress-free experience. Whether you are looking for a brand-new
-            vehicle, a certified pre-owned car, or simply need reliable service,
-            we have got you covered. Explore our wide selection of top-quality
-            cars, SUVs, and trucks, all backed by our commitment to customer
-            satisfaction.
-          </p>
-          <p>
-            <strong>Our Inventory</strong>
-          </p>
-          <p>
-            Explore our extensive inventory of vehicles from trusted brands.
-            From the latest models with cutting-edge technology to
-            well-maintained pre-owned vehicles, we offer something for every
-            driver. Use our online tools to browse by make, model, price, and
-            more to find the perfect match for your needs.
-          </p>
-          <p>
-            <strong>Finance Options</strong>
-          </p>
-          <p>
-            We understand that purchasing a vehicle is a significant investment.
-            Our finance experts are here to guide you through the process,
-            offering competitive rates and flexible terms that fit your budget.
-            Whether you have excellent credit, are building your credit, or are
-            somewhere in between, we have a financing solution for you.
-          </p>
-          <p>
-            <strong>Service &amp; Parts</strong>
-          </p>
-          <p>
-            Keep your vehicle running smoothly with our expert service and
-            genuine parts. Our certified technicians are equipped with the
-            latest tools and technology to handle everything from routine
-            maintenance to major repairs. Schedule your service appointment
-            online and let us take care of the rest.
-          </p>
-          <h2>
-            <strong>Why Choose Us?</strong>
-          </h2>
-          <ul>
-            <li>
-              <strong>Customer-Centric Approach:</strong> Your satisfaction is
-              our priority. We listen to your needs and tailor our services to
-              ensure you drive away happy.
-            </li>
-            <li>
-              <strong>Quality Assurance:</strong> Every vehicle on our lot has
-              undergone rigorous inspections to meet our high standards for
-              quality and safety.
-            </li>
-            <li>
-              <strong>Transparent Pricing:</strong> No hidden fees or
-              surprises—just straightforward, competitive pricing on all our
-              vehicles and services.
-            </li>
-          </ul>
-          <p>
-            <strong>Visit Us Today</strong>
-          </p>
-          <p>
-            Ready to find your next vehicle? Visit [Your Dealership Name] today
-            and experience the difference. Our friendly and knowledgeable staff
-            are here to assist you every step of the way. Located at [Your
-            Address], we are just a short drive away from [Nearby City/Area]. We
-            look forward to welcoming you!
-          </p>
+
+      {/* Hero Banner */}
+      <div className="relative h-[300px] w-full">
+        <Image
+          src="/frame1.jpg"
+          alt="SRM Tours"
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+          <h1 className="text-white text-2xl lg: text-4xl font-bold p-2">About SRM Tours & Travels</h1>
         </div>
       </div>
 
-      <div className="px-1 md:px-20">
-        <Listing />
+      <div className="w-full m-auto md:w-3/4 px-4 py-10">
+
+        {/* Intro */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ duration: 0.5 }}
+          className="space-y-4 text-gray-700 leading-7"
+        >
+          <p class="text-2xl md:text-3xl font-bold md:font-medium">
+            <strong>Welcome to SRM Tours and Travels</strong>
+          </p>
+
+          <p>
+            SRM Tours and Travels is your trusted partner for comfortable,
+            safe, and affordable travel services. We specialize in providing
+            reliable cab and travel solutions for local trips, outstation
+            journeys, airport transfers, and customized tour packages across
+            Tamil Nadu and South India.
+          </p>
+        </motion.div>
+
+        {/* Image + Text Section */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ delay: 0.2 }}
+          className="grid md:grid-cols-2 gap-8 items-center mt-10"
+        >
+          <Image
+            src="/frame5.jpeg"
+            alt="Our fleet"
+            width={600}
+            height={400}
+            className="rounded-lg shadow-lg"
+          />
+
+          <div className="space-y-4">
+            <h2 className="text-2xl md:text-3xl font-bold md:font-medium">Our Fleet</h2>
+            <p>
+              We offer a wide range of well-maintained vehicles including
+              hatchbacks, sedans, SUVs, and tempo travellers to suit every
+              travel need.
+            </p>
+            <p>
+              All our vehicles are regularly serviced and inspected to ensure
+              maximum safety and comfort during your journey.
+            </p>
+          </div>
+        </motion.div>
+
+        {/* Services Section */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ delay: 0.4 }}
+          className="mt-12"
+        >
+
+          <div className="grid md:grid-cols-2 gap-8 items-center py-3">
+            <div class="space-y-4">
+
+              <h2 className="text-2xl md:text-3xl font-bold md:font-medium">Our Services</h2>
+              <ul className="list-disc pl-6 space-y-2">
+                <li>Airport pickup and drop services</li>
+                <li>Local city rides</li>
+                <li>Outstation cab booking</li>
+                <li>Tour packages and pilgrimage trips</li>
+                <li>Corporate travel services</li>
+              </ul>
+
+            </div>
+
+            <Image
+              src="/frame4.jpg"
+              alt="Travel services"
+              width={600}
+              height={400}
+              className="rounded-lg shadow-lg"
+            />
+          </div>
+        </motion.div>
+
+        {/* Why Choose Us */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ delay: 0.5 }}
+          className="mt-12 space-y-4"
+        >
+          <h2 className="text-2xl md:text-3xl font-bold md:font-medium">Why Choose Us?</h2>
+
+          <ul className="list-disc pl-6 space-y-2">
+            <li><strong class="font-bold md:font-medium">Experienced Drivers:</strong> Courteous and trained drivers</li>
+            <li><strong class="font-bold md:font-medium">Clean Vehicles:</strong> Sanitized and comfortable rides</li>
+            <li><strong class="font-bold md:font-medium">Affordable Pricing:</strong> Transparent rates</li>
+            <li><strong class="font-bold md:font-medium">24/7 Support:</strong> Always available for booking</li>
+          </ul>
+        </motion.div>
+
       </div>
     </div>
   );

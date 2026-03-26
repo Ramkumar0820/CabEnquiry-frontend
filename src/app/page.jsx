@@ -3,7 +3,8 @@ import React from 'react';
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Make from "@/components/block/make";
 import SingleBox from "@/components/block/singleBox";
-import FiltterList from "@/components/block/filtterList";
+// import FiltterList from "@/components/block/filtterList";
+import Listing from "@/components/block/listing";
 import BlogPost from "@/components/block/blogPost";
 
 export default function App() {
@@ -39,8 +40,8 @@ export default function App() {
         <Make />
       </div> */}
 
-      <div id='search-fliter' className="lisitng-box mt-4 px-0 md:px-20">
-        <FiltterList />
+      <div className="lisitng-box mt-4 px-0 md:px-20">
+        <Listing />
       </div>
       {/* <div className="flex flex-col md:flex-row justify-between items-center mt-10 px-5 md:px-20 bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white py-10 gap-8 md:gap-0">
         <div className="flex justify-center items-center gap-5">

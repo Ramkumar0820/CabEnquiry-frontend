@@ -9,7 +9,7 @@ const Footer = () => {
   const router = useRouter();
   const currentYear = new Date().getFullYear();
   return (
-    <footer className="bg-slate-100 text-black pt-12 pb-5 px-6 md:px-20">
+    <footer className="bg-[#a8cade] text-black pt-12 pb-5 px-6 md:px-20">
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start gap-10">
           {/* Company Info */}
@@ -37,7 +37,7 @@ const Footer = () => {
               <h3 className="font-bold text-lg text-gray-900 mb-0">Quick Links</h3>
               <p onClick={() => router.push('/')} className="hover:text-gray-500 cursor-pointer">Home</p>
               <p onClick={() => router.push('/about-us')} className="hover:text-gray-500 cursor-pointer">About Us</p>
-              <p onClick={() => router.push('/booking')} className="hover:text-gray-500 cursor-pointer">Book a Cab</p>
+              <p onClick={() => router.push('/cars')} className="hover:text-gray-500 cursor-pointer">Book a Cab</p>
               <p onClick={() => router.push('/contact-us')} className="hover:text-gray-500 cursor-pointer">Contact</p>
             </div>
           </div>
@@ -51,9 +51,15 @@ const Footer = () => {
             <a href="mailto:ranjithkumarsrmtravels@gmail.com" className="flex items-center justify-center md:justify-start text-gray-700 mb-2">
               <FaEnvelope className="mr-2" /> ranjithkumarsrmtravels@gmail.com
             </a>
-            <a href="tel:+917871082904" className="flex items-center justify-center md:justify-start text-gray-700 mb-2">
-              <FaPhoneAlt className="mr-2" /> +91 7871082904
-            </a>
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-4 text-gray-700">
+              <a href="tel:+917871082904" className="flex items-center mb-2">
+                <FaPhoneAlt className="mr-2" /> +91 7871082904
+              </a>
+              <span className="hidden md:inline mb-2 text-gray-400">|</span>
+              <a href="tel:+917806816229" className="flex items-center mb-2">
+                <FaPhoneAlt className="mr-2" /> +91 7806816229
+              </a>
+            </div>
           </div>
         </div>
         <p className="text-center md:text-left text-sm text-gray-600 mt-8">

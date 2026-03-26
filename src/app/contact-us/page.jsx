@@ -1,95 +1,174 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
-import { Spinner } from "@nextui-org/spinner";
-import Listing from "@/components/block/listing";
+import Image from "next/image";
+import { useForm } from "react-hook-form";
+export default function ContactPage() {
 
-const ContactPage = () => {
-  return (
+  const [loading, setLoading] = useState(true);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+  const onSubmit = async (data) => {
+    // console.log("Form Data:", data);
+
+    try {
+      const response = await fetch(`${baseUrl}/api/listing/contact_inquiries`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...data,
+          markAsRead: false,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to submit inquiry");
+      }
+      let result = await response.json();
+      // console.log(result, "data");
+      reset();
+      // toast.success(result.message || "Inquiry Submitted");
+      // window.alert(result.message || "Inquiry Submitted")
+      // data = data.filter((listing) => listing._id === slug);
+      // setListing(data);
+    } catch (error) {
+      console.error("Error fetching listing:", error);
+      // toast.error("Failed to submit inquiry");
+      // setError("Failed to load the listing. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+               
+  return (      
     <div>
-      <div className=" w-full m-auto md:w-3/4 px-4 md:mpx-0">
-        <div className="my-10 text-center">
-          <h1>Contact Us:</h1>
+        {/* Hero Banner */}
+        <div className="relative h-[300px] w-full">
+          <Image
+          src="/frame1.jpg"
+          alt="SRM Tours"
+          fill
+          className="object-cover"
+          />
+          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+            <h1 className="text-white text-2xl lg: text-4xl font-bold p-2">Contact With Us</h1>
+          </div>
         </div>
-        <div className="ck-content mt-6 px-4">
-          <p>
-            <strong>Welcome to VasuX</strong>
-          </p>
-          <p>
-            At Vasux, we believe that buying a car should be an exciting and
-            stress-free experience. Whether you are looking for a brand-new
-            vehicle, a certified pre-owned car, or simply need reliable service,
-            we have got you covered. Explore our wide selection of top-quality
-            cars, SUVs, and trucks, all backed by our commitment to customer
-            satisfaction.
-          </p>
-          <p>
-            <strong>Our Inventory</strong>
-          </p>
-          <p>
-            Explore our extensive inventory of vehicles from trusted brands.
-            From the latest models with cutting-edge technology to
-            well-maintained pre-owned vehicles, we offer something for every
-            driver. Use our online tools to browse by make, model, price, and
-            more to find the perfect match for your needs.
-          </p>
-          <p>
-            <strong>Finance Options</strong>
-          </p>
-          <p>
-            We understand that purchasing a vehicle is a significant investment.
-            Our finance experts are here to guide you through the process,
-            offering competitive rates and flexible terms that fit your budget.
-            Whether you have excellent credit, are building your credit, or are
-            somewhere in between, we have a financing solution for you.
-          </p>
-          <p>
-            <strong>Service &amp; Parts</strong>
-          </p>
-          <p>
-            Keep your vehicle running smoothly with our expert service and
-            genuine parts. Our certified technicians are equipped with the
-            latest tools and technology to handle everything from routine
-            maintenance to major repairs. Schedule your service appointment
-            online and let us take care of the rest.
-          </p>
-          <h2>
-            <strong>Why Choose Us?</strong>
-          </h2>
-          <ul>
-            <li>
-              <strong>Customer-Centric Approach:</strong> Your satisfaction is
-              our priority. We listen to your needs and tailor our services to
-              ensure you drive away happy.
-            </li>
-            <li>
-              <strong>Quality Assurance:</strong> Every vehicle on our lot has
-              undergone rigorous inspections to meet our high standards for
-              quality and safety.
-            </li>
-            <li>
-              <strong>Transparent Pricing:</strong> No hidden fees or
-              surprises—just straightforward, competitive pricing on all our
-              vehicles and services.
-            </li>
-          </ul>
-          <p>
-            <strong>Visit Us Today</strong>
-          </p>
-          <p>
-            Ready to find your next vehicle? Visit [Your Dealership Name] today
-            and experience the difference. Our friendly and knowledgeable staff
-            are here to assist you every step of the way. Located at [Your
-            Address], we are just a short drive away from [Nearby City/Area]. We
-            look forward to welcoming you!
-          </p>
-        </div>
-      </div>
+        <div className="flex flex-col lg:flex-row gap-10 px-4 sm:px-6 lg:px-20 py-10">
+          <div className=" w-full lg:w-3/5">
+            <h2 className="text-2xl font-semibold mb-6">Contact With Us</h2>
 
-      <div className="px-1 md:px-20">
-        <Listing />
-      </div>
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                    {/* Name */}
+                    <div>
+                      <label className="block mb-2 text-black">Name</label>
+                      <input
+                        {...register("name", { required: "Name is required" })}
+                        className="w-full rounded-xl bg-gray-100 px-4 py-3 outline-none"
+                        placeholder="Enter name"
+                      />
+                      {errors.name && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.name.message}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Email */}
+                      <div>
+                        <label className="block mb-2 text-black">Email</label>
+                        <input
+                          {...register("email", {
+                          required: "Email is required",
+                          pattern: {
+                          value: /^\S+@\S+$/i,
+                          message: "Invalid email address",
+                          },
+                          })}
+                          className="w-full rounded-xl bg-gray-100 px-4 py-3 outline-none"
+                          placeholder="Enter email"
+                        />
+                        {errors.email && (
+                          <p className="text-red-500 text-sm mt-1">
+                            {errors.email.message}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Mobile */}
+                      <div>
+                        <label className="block mb-2 text-black">Mobile</label>
+                        <input
+                          {...register("mobile", {
+                            required: "Mobile number is required",
+                            pattern: {
+                              value: /^[0-9]{10}$/,
+                              message: "Enter a valid 10-digit mobile number",
+                            },
+                            // minLength: {
+                            //   value: 10,
+                            //   message: "Minimum 10 digits",
+                            // },
+                          })}
+                          type="tel"
+                          className="w-full rounded-xl bg-gray-100 px-4 py-3 outline-none"
+                          placeholder="Enter mobile number"
+                        />
+                        {errors.mobile && (
+                          <p className="text-red-500 text-sm mt-1">
+                            {errors.mobile.message}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Message */}
+                      <div>
+                        <label className="block mb-2 text-black">Message</label>
+                        <textarea
+                          {...register("message", {
+                            required: "Message is required",
+                          })}
+                          rows={4}
+                          className="w-full rounded-xl bg-gray-100 px-4 py-3 outline-none resize-none"
+                          placeholder="Enter message"
+                        />
+                        {errors.message && (
+                          <p className="text-red-500 text-sm mt-1">
+                            {errors.message.message}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Submit */}
+                      <button
+                        type="submit"
+                        className="bg-black text-white px-8 py-3 rounded-xl"
+                      >
+                        Submit
+                      </button>
+                </form>
+          </div>
+          <div className="w-full lg:w-2/5">
+            {/* <div className="grid md:grid-cols-2 gap-8 items-center mt-10"> */}
+              <Image
+                src="/frame5.jpeg"
+                alt="img"
+                width={600}
+                height={400}
+                className="rounded-lg shadow-lg w-full h-full"
+              />
+            {/* </div> */}
+          </div>
+        </div>
     </div>
-  );
-};
-
-export default ContactPage;
+  
+  )
+}

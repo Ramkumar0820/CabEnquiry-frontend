@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaCar, FaGasPump, FaTachometerAlt } from 'react-icons/fa';
+import { FaCar, FaGasPump, FaChair,FaUsers } from 'react-icons/fa';
 import { TbSteeringWheel } from 'react-icons/tb';
 import { Divider } from "@nextui-org/divider";
 import { Skeleton } from "@nextui-org/react"; 
@@ -57,7 +57,7 @@ function Listing() {
                     </>
                 ) : (
                     listing.map((item) => (
-                        <div key={item.id} className="relative shadow-md rounded-lg overflow-hidden bg-texcher">
+                        <div key={item.id} className="relative shadow-md rounded-lg overflow-hidden">
                             <div className="relative z-10 p-4">
                                 <div className="overflow-hidden rounded-md mb-2 relative">
                                     <img
@@ -74,7 +74,7 @@ function Listing() {
                                 <div>
                                     <Link href={`/cars/${item._id}`}>   <h1 className="text-blue-950 text-lg font-semibold flex justify-between items-center">
                                         {item.title.length > 13 ? `${item.title.substring(0, 13)}...` : item.title}
-                                        <p className='text-2xl drop-shadow-xl'>{getCurrencySymbol(item.priceCurrency)}{" "}{item.price}</p>
+                                        <p className='text-2xl drop-shadow-xl'>{getCurrencySymbol(item.priceCurrency)}{" "}{item.price} / KM</p>
                                     </h1></Link>
                                     <Divider className='my-1 px-3'></Divider>
                                     <div className='flex justify-between items-center'>
@@ -82,7 +82,7 @@ function Listing() {
                                         <p className="flex items-center"><FaCar className="mr-2 text-blue-950" /> {item.bodyType} </p>
                                     </div>
                                     <div className='flex justify-between items-center'>
-                                        <p className="flex items-center"><FaTachometerAlt className="mr-2 text-blue-950" /> {item.mileage} {item.mileageUnit} </p>
+                                        <p className="flex items-center"><FaUsers className="mr-2 text-blue-950" /> {item.vehicleSeatingCapacity} Seats</p>
                                         <p className="flex items-center"><TbSteeringWheel className="mr-2 text-blue-950" /> {item.vehicleTransmission} </p>
                                     </div>
                                 </div>

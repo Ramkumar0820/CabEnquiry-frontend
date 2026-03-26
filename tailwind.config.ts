@@ -11,6 +11,8 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      button_bg: "#154a87",
+      hover_button_bg: "#154a87d6",
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

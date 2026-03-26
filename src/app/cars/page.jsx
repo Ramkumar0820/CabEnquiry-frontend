@@ -1,237 +1,369 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import { FaCar, FaGasPump, FaTachometerAlt } from 'react-icons/fa';
-import { TbSteeringWheel } from 'react-icons/tb';
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { FaUsers, FaSnowflake, FaGasPump } from "react-icons/fa";
+import { TbSteeringWheel } from "react-icons/tb";
 import { Divider } from "@nextui-org/divider";
-import { Select, SelectItem } from "@nextui-org/react";
-import { Image, Skeleton } from "@nextui-org/react";
-import { Slider } from "@nextui-org/react";
-import Link from 'next/link';
-import { resolveImageUrl, getCurrencySymbol } from '../../components/utils/helper';
+import { Select, SelectItem, Slider, Skeleton } from "@nextui-org/react";
+import { useForm } from "react-hook-form";
+import Image from "next/image";
+import {
+  getCurrencySymbol,
+  resolveImageUrl,
+} from "../../components/utils/helper";
 
-function Listing() {
-    const [listing, setListing] = useState([]);
-    const [selectedMake, setSelectedMake] = useState("");
-    const [selectedModel, setSelectedModel] = useState("");
-    const [makes, setMakes] = useState([]);
-    const [models, setModels] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
-    const [priceValue, setPrice] = useState([0]); // Initialize price value as [0]
+export default function Listing() {
+  const [vehicles, setVehicles] = useState([]);
+  const [filtered, setFiltered] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [price, setPrice] = useState(0);
+  const [tripType, setTripType] = useState("Local");
 
-    // Fetch car makes for the select dropdown
-    useEffect(() => {
-        const fetchMakes = async () => {
-            try {
-                const response = await fetch(`${baseUrl}/api/listing/make`);
-                const data = await response.json();
-                setMakes(data);
-            } catch (error) {
-                console.error("Error fetching makes:", error);
-            }
-        };
+  const [selectedVehicle, setSelectedVehicle] = useState(null);
+  const [showForm, setShowForm] = useState(false);
 
-        fetchMakes();
-    }, []);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-    // Fetch models based on selected make
-    useEffect(() => {
-        const fetchModels = async () => {
-            if (!selectedMake) return;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-            try {
-                const response = await fetch(`${baseUrl}/api/listing/model?make=${selectedMake}`);
-                const data = await response.json();
-                setModels(data);
-                setSelectedModel(""); // Reset selected model when make changes
-            } catch (error) {
-                console.error("Error fetching models:", error);
-            }
-        };
+  // ================= Load Vehicles =================
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await fetch(`${baseUrl}/api/listing`);
+        const data = await res.json();
+        setVehicles(data);
+        setFiltered(data);
+      } catch (err) {
+        console.error("Failed to load vehicles", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
+  }, []);
 
-        fetchModels();
-    }, [selectedMake]);
+  // ================= Filtering =================
+  useEffect(() => {
+    let data = [...vehicles];
+    if (price > 0) data = data.filter((v) => v.price <= price);
+    setFiltered(data);
+  }, [price, vehicles]);
 
-    // Fetch listings based on selected make, model, and price
-    useEffect(() => {
-        const fetchListings = async () => {
-            setLoading(true); // Start loading
-            try {
-                const response = await fetch(`${baseUrl}/api/listing`);
-                let data = await response.json();
+  // ================= Require tripType before booking =================
+  const openBooking = (vehicle) => {
+    if (!tripType) {
+      alert("Please select trip type before booking");
+      return;
+    }
+    setSelectedVehicle(vehicle);
+    setShowForm(true);
+  };
 
-                if (selectedMake) {
-                    data = data.filter(listing => listing.make === selectedMake);
-                }
+  // ================= Submit Booking =================
+  const onSubmit = async (data) => {
+    try {
+      const response = await fetch(`${baseUrl}/api/listing/inquiry`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...data,
+          tripType,
+          productName: selectedVehicle.title,
+          vehicleId: selectedVehicle.id,
+          vehicleName: `${selectedVehicle.make} ${selectedVehicle.model}`,
+          vehicleImg: selectedVehicle.image,
+          price: selectedVehicle.price,
+          markAsRead: false,
+        }),
+      });
 
-                if (selectedModel) {
-                    data = data.filter(listing => listing.model === selectedModel);
-                }
+      if (!response.ok) throw new Error("Failed to submit inquiry");
 
-                if (priceValue[0] > 0) {
-                    const plainPriceValue = parseInt(priceValue[0].toString().replace(/,/g, ''), 10);
-                    data = data.filter(listing => parseInt(listing.price.replace(/,/g, ''), 10) <= plainPriceValue);
-                }
+      await response.json();
+      reset();
+      alert("Inquiry submitted successfully");
+      setShowForm(false);
+    } catch (error) {
+      console.error("Error submitting inquiry:", error);
+      alert("Failed to submit inquiry");
+    }
+  };
 
-                data = data.filter(listing => listing.visibility === "Active");
+  const skeleton = () => (
+    <div className="p-4 bg-white shadow rounded">
+      <Skeleton className="h-40 w-full mb-2" />
+      <Skeleton className="h-4 w-full mb-1" />
+      <Skeleton className="h-4 w-1/2" />
+    </div>
+  );
 
-                data.sort((a, b) => new Date(b.date) - new Date(a.date));
-                setListing(data);
-            } catch (error) {
-                console.error("Error fetching listings:", error);
-            } finally {
-                setLoading(false); // End loading
-            }
-        };
-
-        fetchListings();
-    }, [selectedMake, selectedModel, priceValue]);
-
-    const renderSkeleton = () => (
-        <div className="listingCard p-4 mb-4 rounded-lg flex flex-col gap-1 listing-card shadow-md bg-white ">
-            <Skeleton className="h-[180px] w-[100%] rounded-xl mb-2" />
-            <Skeleton className="h-5 w-[100%] mb-1" />
-            <Skeleton className="h-5 w-[60%] mb-1" />
+  return (
+    <div>
+      {/* ================= Header ================= */}
+      <div className="bg-gray-100 text-center">
+        <div className="relative h-[300px] w-full">
+          <Image
+            src="/frame1.jpg"
+            alt="SRM Tours"
+            fill
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+            <h1 className="text-white text-2xl lg:text-4xl font-bold p-2">
+              Book Your Cab
+            </h1>
+          </div>
         </div>
-    );
+      </div>
 
-    return (
-        <div className="">
+      {/* ================= Filters ================= */}
+      <div className="p-4">
+        <div className="text-center mt-3">
+            <h1 className="text-2xl p-2 md:text-3xl font-bold md:font-medium">
+            Filter Cars by Trip Type, and Price Range
+            </h1>
+        </div>
+        <div className="flex justify-center gap-3 md:gap-10 items-center mt-5 p-2 flex-col md:flex-row">
+            <Select
+            label="Trip Type"
+            color="#154a87d6"
+            selectedKeys={[tripType]}
+            labelPlacement="outside"
+            className="max-w-xs w-80 "
+            onChange={(e) => setTripType(e.target.value)}
+            >
+            <SelectItem key="Local">Local</SelectItem>
+            <SelectItem key="Outstation">Outstation</SelectItem>
+            <SelectItem key="Rental">Rental</SelectItem>
+            </Select>
 
-            <div className=' w-full   flex flex-col justify-center items-center bg-texcher1 mb-8 py-4'>
-                <div className='text-center mt-3'>
-                    <h1 className='text-2xl p-2 md:text-3xl font-bold md:font-medium'>
-                        Filter Cars by Make, Model, and Price Range
-                    </h1>
-                    <p className='mt-2 p-2'>
-                        Easily search for cars by selecting the make, model, and price range to streamline your filtering process.
-                    </p>
-                </div>
-
-                <div className='flex justify-center gap-3 md:gap-10 items-center mt-5 flex-col md:flex-row  '>
-
-                    <div className="mb-1">
-                        <Select
-                            placeholder="Select a make"
-                            value={selectedMake}
-                            color='secondary'
-                            labelPlacement="outside"
-                            onChange={(e) => {
-                                setSelectedMake(e.target.value);
-                                setSelectedModel(""); // Reset selected model when make changes
-                            }}
-                            className="max-w-xs w-80">
-                            {makes.map(make => (
-                                <SelectItem key={make.make} value={make.make}>
-                                    {make.make}
-                                </SelectItem>
-                            ))}
-                        </Select>
-                    </div>
-
-                    <div className="mb-1">
-                        <Select
-                            placeholder="Select a model"
-                            value={selectedModel}
-                            color='secondary'
-                            labelPlacement="outside"
-                            onChange={(e) => setSelectedModel(e.target.value)}
-                            className="max-w-xs w-80"
-                            isDisabled={!selectedMake} // Disable if no make is selected
-                        >
-                            {models.map(model => (
-                                <SelectItem key={model.model} value={model.model}>
-                                    {model.model}
-                                </SelectItem>
-                            ))}
-                        </Select>
-                    </div>
-
-                    <div className="flex flex-col gap-0 w-full h-full max-w-md items-start justify-center mb-1">
-                        <Slider
-                            formatOptions={{ style: "currency", currency: "USD" }}
-                            step={1000}
-                            maxValue={1000000}
-                            minValue={0}
-                            value={priceValue}
-                            onChange={setPrice}
-                            classNames={{
-                                base: "max-w-md gap-3 w-80",
-                                track: "border-s-secondary-100",
-                                filler: "bg-gradient-to-r from-secondary-100 to-secondary-500"
-                            }}
-                            renderThumb={(props) => (
-                                <div
-                                    {...props}
-                                    className="group p-1 top-1/2 bg-background border-small border-default-200 dark:border-default-400/50 shadow-medium rounded-full cursor-grab data-[dragging=true]:cursor-grabbing"
-                                >
-                                    <span className="transition-transform bg-gradient-to-br shadow-small from-secondary-100 to-secondary-500 rounded-full w-5 h-5 block group-data-[dragging=true]:scale-80" />
-                                </div>
-                            )}
-                        />
-                        <p className="text-default-500 font-medium text-small">
-                            Selected budget: {Array.isArray(priceValue) && priceValue.map((b) => `$${b}`).join(" – ")}
-                        </p>
-                    </div>
-                </div>
+            <div className="">
+            <p className="text-sm">Max Price: ₹{price} / km</p>
+            <Slider
+                classNames={{
+                base: "max-w-md gap-3 w-80",
+                track: "border-s-secondary-100",
+                filler:
+                    "bg-gradient-to-r from-secondary-100 to-secondary-500",
+                }}
+                minValue={0}
+                maxValue={100}
+                step={5}
+                value={price}
+                onChange={(v) =>
+                setPrice(Array.isArray(v) ? v[0] : v)
+                }
+            />
             </div>
-
-            {loading ? (
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 mx-20">
-                    {renderSkeleton()}
-                    {renderSkeleton()}
-                    {renderSkeleton()}
-                    {renderSkeleton()}
-                    {renderSkeleton()}
-                    {renderSkeleton()}
-                    {renderSkeleton()}
-                    {renderSkeleton()}
-                </div>
-            ) : listing.length === 0 ? (
-                <div className='mx-20 m-auto flex justify-center'>
-                    <img className='w-96 h-96' src="/nodata.jpg" alt="" />
-                </div>
-            ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mx-1 md:mx-20">
-                    {listing.map(item => (
-                        <div key={item.id} className="relative shadow-md rounded-lg overflow-hidden bg-texcher">
-                            <div className="relative z-10 p-4">
-                                <div className="relative mb-2 overflow-hidden rounded-md">
-                                <Link href={`/cars/${item._id}`}>
-                                        <img
-                                            src={resolveImageUrl(item.image)}
-                                            alt={item.title}
-                                            className="w-full h-48 object-cover transition-transform duration-300 ease-in-out transform hover:scale-110"
-                                        />
-                                    </Link>
-                                    {item.itemCondition === "Used" && (
-                                        <p className='absolute top-2 left-3 bg-red-600 text-white px-2 rounded-md'>
-                                            {item.itemCondition}
-                                        </p>
-                                    )}
-                                </div>
-                                <div>
-                                    <h1 className="text-blue-950 text-lg font-semibold flex justify-between items-center">
-                                    <Link href={`/cars/${item._id}`}>{item.title.length > 13 ? `${item.title.substring(0, 13)}...` : item.title}</Link>
-                                    <p className='text-2xl drop-shadow-xl'>{getCurrencySymbol(item.priceCurrency)}{" "}{item.price}</p>
-                                    </h1>
-                                    <Divider className='my-1 px-3' />
-                                    <div className='flex justify-between items-center'>
-                                        <p className="flex items-center"><FaGasPump className="mr-2 text-blue-950" />{item.fuelType}</p>
-                                        <p className="flex items-center"><FaCar className="mr-2 text-blue-950" /> {item.bodyType}</p>
-                                    </div>
-                                    <div className='flex justify-between items-center'>
-                                        <p className="flex items-center"><FaTachometerAlt className="mr-2 text-blue-950" /> {item.mileage} {item.mileageUnit}</p>
-                                        <p className="flex items-center"><TbSteeringWheel className="mr-2 text-blue-950" />{item.vehicleTransmission}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            )}
         </div>
-    );
-}
+      </div>
 
-export default Listing;
+      {/* ================= Vehicle List ================= */}
+      {loading ? (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-6">
+          {[...Array(6)].map((_, i) => (
+            <div key={i}>{skeleton()}</div>
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
+          {filtered.map((v) => (
+            <div key={v._id} className="bg-white shadow rounded">
+              <img
+                src={resolveImageUrl(v.image)}
+                className="h-40 w-full object-cover rounded-t"
+              />
+
+              <div className="p-4">
+                <h2 className="font-semibold text-lg">
+                  {v.make} {v.model}
+                </h2>
+
+                <Divider className="my-2" />
+
+                <div className="flex justify-between text-sm">
+                  <span className="flex items-center">
+                    <FaUsers className="mr-1" />
+                    {v.vehicleSeatingCapacity} Seats
+                  </span>
+                  <span className="flex items-center">
+                    <FaGasPump className="mr-1" />
+                    {v.fuelType}
+                  </span>
+                </div>
+
+                <div className="flex justify-between mt-2">
+                  <span className="flex items-center text-sm">
+                    <TbSteeringWheel className="mr-1" />
+                    Driver Included
+                  </span>
+
+                  <span className="font-bold text-blue-600">
+                    ₹{v.price} / km
+                  </span>
+                </div>
+
+                <button
+                  onClick={() => openBooking(v)}
+                  className="mt-4 w-full bg-[#154a87] hover:bg-[#154a87d6] text-white py-2 rounded"
+                >
+                  Book Now
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* ================= Booking Modal ================= */}
+      {showForm && selectedVehicle && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 h-full overfloy-y-auto">
+          <div className="bg-white p-6 rounded w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+            <h2 className="text-xl font-bold mb-4">
+              Booking for {selectedVehicle.make} {selectedVehicle.model}
+            </h2>
+
+            {/* ================= Responsive Grid Form ================= */}
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="grid grid-cols-1 md:grid-cols-2 gap-4"
+            >
+              <div>
+                <label className="block mb-2">Name</label>
+                <input
+                  {...register("name", { required: "Name is required" })}
+                  className="w-full rounded-xl bg-gray-100 px-4 py-3"
+                  placeholder="Enter name"
+                />
+                {errors.name && (
+                  <p className="text-red-500 text-sm">
+                    {errors.name.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="block mb-2">Mobile</label>
+                <input
+                  {...register("mobile", {
+                    required: "Mobile number is required",
+                    pattern: {
+                      value: /^[0-9]{10}$/,
+                      message: "Enter a valid 10-digit number",
+                    },
+                  })}
+                  className="w-full rounded-xl bg-gray-100 px-4 py-3"
+                  placeholder="Enter mobile number"
+                />
+                {errors.mobile && (
+                  <p className="text-red-500 text-sm">
+                    {errors.mobile.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="block mb-2">Email</label>
+                <input
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^\S+@\S+$/i,
+                      message: "Invalid email address",
+                    },
+                  })}
+                  className="w-full rounded-xl bg-gray-100 px-4 py-3"
+                  placeholder="Enter email"
+                />
+                {errors.email && (
+                  <p className="text-red-500 text-sm">
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="block mb-2">Pickup Location</label>
+                <input
+                  {...register("pickup", {
+                    required: "Pickup is required",
+                  })}
+                  className="w-full rounded-xl bg-gray-100 px-4 py-3"
+                  placeholder="Enter pickup area"
+                />
+              </div>
+
+              <div>
+                <label className="block mb-2">Pickup Landmark</label>
+                <input
+                  {...register("pickupLandmark")}
+                  className="w-full rounded-xl bg-gray-100 px-4 py-3"
+                  placeholder="Enter pickup landmark"
+                />
+              </div>
+
+              {tripType !== "Rental" && (
+                <div>
+                  <label className="block mb-2">Drop Location</label>
+                  <input
+                    {...register("drop", {
+                      required: "Drop is required",
+                    })}
+                    className="w-full rounded-xl bg-gray-100 px-4 py-3"
+                    placeholder="Enter drop area"
+                  />
+                </div>
+              )}
+
+              {tripType === "Rental" && (
+                <div>
+                  <label className="block mb-2">Rental Hours</label>
+                  <input
+                    {...register("rentalHours", {
+                      required: "Rental hours required",
+                    })}
+                    className="w-full rounded-xl bg-gray-100 px-4 py-3"
+                    placeholder="Enter hours"
+                  />
+                </div>
+              )}
+
+              <div className="md:col-span-2">
+                <label className="block mb-2">Travel Date</label>
+                <input
+                  type="date"
+                  {...register("date", {
+                    required: "Date is required",
+                  })}
+                  className="w-full rounded-xl bg-gray-100 px-4 py-3"
+                />
+              </div>
+              <div className="flex flex-wrap gap-2">
+                    <button
+                        type="submit"
+                        className="w-full lg:w-auto bg-[#154a87] hover:bg-[#154a87d6] text-white py-2 rounded text-white px-4"
+                    >
+                    Submit
+                    </button>
+                    <button
+                        onClick={() => setShowForm(false)}
+                        className="w-full lg:w-auto border border-black text-gray-500 py-2 rounded px-4 "
+                    >
+                        Cancel
+                    </button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

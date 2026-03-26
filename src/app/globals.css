@@ -81,6 +81,10 @@ p {
   font-size: 16px;
 }
 
+.bg-card {
+  background: #a8cade;
+}
+
 .bg-texcher1 {
   background:
   repeating-linear-gradient( 45deg,#0000 calc(-650%/13) calc(50%/13),#f6f6f6 0 calc(100%/13),

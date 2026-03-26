@@ -68,7 +68,7 @@ const Header = () => {
                     : ""
                   }`}
               >
-                Cars
+                Book a Cab
               </li>
             </Link>
             {/* <Link href="#search-fliter"><li className={`hover:text-primary cursor-pointer`}>Search</li></Link> */}
@@ -99,7 +99,7 @@ const Header = () => {
 
         {/* Desktop Search with Social Media Icons */}
         <div className="relative w-48 sm:w-64 md:w-96 hidden md:flex items-center gap-4">
-          <div className="relative w-full">
+          {/* <div className="relative w-full">
             <Input
               type="text"
               color="primary"
@@ -128,7 +128,7 @@ const Header = () => {
                 }}
               />
             )}
-          </div>
+          </div> */}
           {/* Social Media Icons */}
           <div className="flex justify-center gap-2 px-1 mt-auto">
             {/* <Link href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
