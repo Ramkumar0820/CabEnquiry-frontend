@@ -87,8 +87,45 @@ export default function Listing() {
       if (!response.ok) throw new Error("Failed to submit inquiry");
 
       await response.json();
+
+       // ==========================
+    // Build WhatsApp message
+    // ==========================
+    const message = `
+    🚖 *SRM Tourism & Travels - MADURAI*
+    --------------------------
+    🚗 *New Booking Request*
+
+    *Name:* ${data.name}
+    *Phone:* ${data.mobile}
+    *Trip Type:* ${tripType}
+
+    *Vehicle:* ${selectedVehicle.make} ${selectedVehicle.model}
+    *Category:* ${selectedVehicle.title}
+
+    *Pickup:* ${data.pickup}
+    *Drop:* ${data.drop}
+    *Date:* ${data.date}
+
+    *Price:* ₹${selectedVehicle.price}/km
+    --------------------------
+    📍 *Madurai's Trusted Travel Partner*
+    📞 *Contact: +91 7871082904 | +91 7806816229*
+    `;
+      // *Booking ID:* ${result.postId}
+
+    const encodedMessage = encodeURIComponent(message);
+
+    // ==========================
+    // Open WhatsApp
+    // ==========================
+    // Create WhatsApp link
+    const whatsappUrl = `https://wa.me/917871082904?text=${encodedMessage}`;
+
+    // Redirect instead of window.open
+    window.location.href = whatsappUrl;
       reset();
-      alert("Inquiry submitted successfully");
+      alert("Booking saved! Redirecting to WhatsApp...");
       setShowForm(false);
     } catch (error) {
       console.error("Error submitting inquiry:", error);
@@ -111,7 +148,7 @@ export default function Listing() {
         <div className="relative h-[300px] w-full">
           <Image
             src="/frame1.jpg"
-            alt="SRM Tours"
+            alt="Madurai SRM Tourism & Travels"
             fill
             className="object-cover"
           />

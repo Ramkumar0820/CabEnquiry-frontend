@@ -14,9 +14,9 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-start gap-10">
           {/* Company Info */}
           <div className="flex flex-col items-center md:items-start w-full md:w-1/3 ">
-            <Image src="/logo.png" className='object-contain rounded-md overflow-hidden' alt="SRM Logo" width={120} height={70} />
+            <Image src="/logo1.png" className='object-contain rounded-md overflow-hidden' alt="Madurai SRM Tourism & Travels" width={120} height={70} />
             <p className="mt-4 text-center md:text-left text-gray-700">
-              Book reliable and affordable cab services with Madurai SRM Travels. Enjoy safe, comfortable rides for local and outstation trips anytime.
+              Book reliable and affordable cab services with Madurai SRM Tourism & Travels. Enjoy safe, comfortable rides for local,rental and outstation trips anytime.
             </p>
             <div className="flex justify-center md:justify-start gap-4 mt-4">
               {/* <div className="bg-[#1877F2] p-2 rounded-full">
@@ -63,7 +63,7 @@ const Footer = () => {
           </div>
         </div>
         <p className="text-center md:text-left text-sm text-gray-600 mt-8">
-          © {currentYear} Madurai SRM Travels. All rights reserved. Designed with ❤️
+          © {currentYear} Madurai SRM Tourism & Travels. All rights reserved. Designed with ❤️
         </p>
       </div>
     </footer>

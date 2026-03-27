@@ -35,6 +35,7 @@ export default function ContactPage() {
       let result = await response.json();
       // console.log(result, "data");
       reset();
+      alert("Inquiry submitted successfully");
       // toast.success(result.message || "Inquiry Submitted");
       // window.alert(result.message || "Inquiry Submitted")
       // data = data.filter((listing) => listing._id === slug);
@@ -54,7 +55,7 @@ export default function ContactPage() {
         <div className="relative h-[300px] w-full">
           <Image
           src="/frame1.jpg"
-          alt="SRM Tours"
+          alt="Madurai SRM Tourism & Travels"
           fill
           className="object-cover"
           />
@@ -159,11 +160,11 @@ export default function ContactPage() {
           <div className="w-full lg:w-2/5">
             {/* <div className="grid md:grid-cols-2 gap-8 items-center mt-10"> */}
               <Image
-                src="/frame5.jpeg"
+                src="/travel-tourism.png"
                 alt="img"
                 width={600}
                 height={400}
-                className="rounded-lg shadow-lg w-full h-full"
+                className=" w-full"
               />
             {/* </div> */}
           </div>

@@ -110,7 +110,7 @@ export default function BookingPage() {
         <div className="relative h-[300px] w-full">
           <Image
             src="/frame1.jpg"
-            alt="SRM Tours"
+            alt="Madurai SRM Tourism & Travels"
             fill
             className="object-cover"
           />

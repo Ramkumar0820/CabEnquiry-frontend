@@ -55,8 +55,44 @@ export default function ListingPage({ slug }) {
       if (!response.ok) throw new Error("Failed to submit inquiry");
 
       await response.json();
+
+
+      const message = `
+      🚖 *SRM Tourism & Travels - MADURAI*
+      --------------------------
+      🚗 *New Booking Request*
+
+      *Name:* ${data.name}
+      *Phone:* ${data.mobile}
+      *Trip Type:* ${tripType}
+
+      *Vehicle:* ${listing[0].make} ${listing[0].model}
+      *Category:* ${listing[0].title}
+
+      *Pickup:* ${data.pickup}
+      *Drop:* ${data.drop}
+      *Date:* ${data.date}
+
+      *Price:* ₹${listing[0].price}/km
+      --------------------------
+      📍 *Madurai's Trusted Travel Partner*
+      📞 *Contact: +91 7871082904 | +91 7806816229*
+      `;
+
+      // *Booking ID:* ${result.postId}
+
+      const encodedMessage = encodeURIComponent(message);
+
+      // ==========================
+      // Open WhatsApp
+      // ==========================
+      // Create WhatsApp link
+      const whatsappUrl = `https://wa.me/917871082904?text=${encodedMessage}`;
+
+      // Redirect instead of window.open
+      window.location.href = whatsappUrl;
       reset();
-      alert("Inquiry submitted successfully");
+      alert("Booking saved! Redirecting to WhatsApp...");
     } catch (error) {
       console.error("Error submitting inquiry:", error);
       alert("Failed to submit inquiry");

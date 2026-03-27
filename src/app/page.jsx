@@ -5,6 +5,7 @@ import Make from "@/components/block/make";
 import SingleBox from "@/components/block/singleBox";
 // import FiltterList from "@/components/block/filtterList";
 import Listing from "@/components/block/listing";
+import DestinationCarousel from "@/components/block/destinationCarousel";
 import BlogPost from "@/components/block/blogPost";
 
 export default function App() {
@@ -39,10 +40,49 @@ export default function App() {
       {/* <div className="-mt-10 md:-mt-20">
         <Make />
       </div> */}
-
+      <div className="lisitng-box mt-4 px-10 md:px-20">
+        <DestinationCarousel />
+      </div>
       <div className="lisitng-box mt-4 px-0 md:px-20">
+        <h2 className="text-2xl font-bold mb-4">Available Vehicles</h2>
         <Listing />
       </div>
+
+      {/* ================= WHY CHOOSE US ================= */}
+      <div className="bg-gray-100 py-12 mt-10">
+        <div className="px-5 md:px-20 text-center">
+          <h2 className="text-3xl font-bold mb-8">Why Choose SRM Tourisum & Travels?</h2>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white p-6 shadow rounded-xl">
+              <h3 className="font-semibold text-lg mb-2">🚗 Clean Vehicles</h3>
+              <p>All cars are sanitized and well-maintained for safe travel.</p>
+            </div>
+
+            <div className="bg-white p-6 shadow rounded-xl">
+              <h3 className="font-semibold text-lg mb-2">👨‍✈️ Professional Drivers</h3>
+              <p>Experienced drivers who know the best routes and ensure your safety.</p>
+            </div>
+
+            <div className="bg-white p-6 shadow rounded-xl">
+              <h3 className="font-semibold text-lg mb-2">💰 Best Pricing</h3>
+              <p>Affordable and transparent pricing with no hidden charges.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ================= MAP ================= */}
+      <div className="px-5 md:px-20 py-12">
+        <h2 className="text-3xl font-bold mb-4 text-center">Our Location</h2>
+
+        <iframe
+          className="w-full h-[400px] rounded-xl border"
+          src="https://www.google.com/maps?q=Madurai,Tamil Nadu&output=embed"
+          loading="lazy"
+        />
+      </div>
+
       {/* <div className="flex flex-col md:flex-row justify-between items-center mt-10 px-5 md:px-20 bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white py-10 gap-8 md:gap-0">
         <div className="flex justify-center items-center gap-5">
           <img src="/customer.png" alt="Happy Customers" className="w-24 h-24 md:w-32 md:h-32" />

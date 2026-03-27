@@ -43,7 +43,7 @@ const Header = () => {
         <Link href="/">
           <img
             className="h-20 sm:h-20 p-2 w-full cursor-pointer"
-            src="/logo.png"
+            src="/logo1.png"
             alt="Logo"
           />
         </Link>
@@ -169,7 +169,7 @@ const Header = () => {
         <div className="flex justify-between items-center p-4">
           <img
             className="h-12 cursor-pointer"
-            src="/logo.png"
+            src="/logo1.png"
             alt="Logo"
             onClick={toggleSidebar}
           />
