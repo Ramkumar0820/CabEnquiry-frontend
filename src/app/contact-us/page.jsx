@@ -33,6 +33,31 @@ export default function ContactPage() {
         throw new Error("Failed to submit inquiry");
       }
       let result = await response.json();
+      const message = `
+      🚖 *SRM Tourisms & Travels - MADURAI*
+      --------------------------
+      🚗 *New Booking Request*
+
+      *Name:* ${data.name}
+      *Phone:* ${data.mobile}
+      *Email:* ${data.email}
+      *Message:* ${data.message}
+      --------------------------
+      📍 *Madurai's Trusted Travel Partner*
+      📞 *Contact: +91 7871082904 | +91 7806816229*
+      `;
+      // *Booking ID:* ${result.postId}
+
+      const encodedMessage = encodeURIComponent(message);
+
+      // ==========================
+      // Open WhatsApp
+      // ==========================
+      // Create WhatsApp link
+      const whatsappUrl = `https://wa.me/917871082904?text=${encodedMessage}`;
+
+      // Redirect instead of window.open
+      window.location.href = whatsappUrl;
       // console.log(result, "data");
       reset();
       alert("Inquiry submitted successfully");
@@ -55,7 +80,7 @@ export default function ContactPage() {
         <div className="relative h-[300px] w-full">
           <Image
           src="/frame1.jpg"
-          alt="Madurai SRM Tourism & Travels"
+          alt="Madurai SRM Tourisms & Travels"
           fill
           className="object-cover"
           />

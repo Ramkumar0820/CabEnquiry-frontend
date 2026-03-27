@@ -9,6 +9,13 @@ import DestinationCarousel from "@/components/block/destinationCarousel";
 import BlogPost from "@/components/block/blogPost";
 
 export default function App() {
+  const message = `
+    Hi Madurai SRM Tourisms & Travels,
+    I would like to book a cab.
+  `;
+
+const whatsappLink =
+  `https://wa.me/917871082904?text=${encodeURIComponent(message)}`;
   return (
     <div>
       <div className="top-main relative">
@@ -40,10 +47,10 @@ export default function App() {
       {/* <div className="-mt-10 md:-mt-20">
         <Make />
       </div> */}
-      <div className="lisitng-box mt-4 px-10 md:px-20">
+      <div className="lisitng-box mt-4 px-0 md:px-20">
         <DestinationCarousel />
       </div>
-      <div className="lisitng-box mt-4 px-0 md:px-20">
+      <div className="lisitng-box mt-4 px-2 md:px-20">
         <h2 className="text-2xl font-bold mb-4">Available Vehicles</h2>
         <Listing />
       </div>
@@ -51,7 +58,7 @@ export default function App() {
       {/* ================= WHY CHOOSE US ================= */}
       <div className="bg-gray-100 py-12 mt-10">
         <div className="px-5 md:px-20 text-center">
-          <h2 className="text-3xl font-bold mb-8">Why Choose SRM Tourisum & Travels?</h2>
+          <h2 className="text-3xl font-bold mb-8">Why Choose SRM Tourisms & Travels?</h2>
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white p-6 shadow rounded-xl">
@@ -82,36 +89,22 @@ export default function App() {
           loading="lazy"
         />
       </div>
+      {/* ================= CTA ================= */}
+      <div className="bg-black text-white py-10 text-center">
+        <h2 className="text-2xl font-semibold mb-2">
+          Need a ride right now?
+        </h2>
+        <p className="mb-4">Book your cab instantly via WhatsApp</p>
 
-      {/* <div className="flex flex-col md:flex-row justify-between items-center mt-10 px-5 md:px-20 bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white py-10 gap-8 md:gap-0">
-        <div className="flex justify-center items-center gap-5">
-          <img src="/customer.png" alt="Happy Customers" className="w-24 h-24 md:w-32 md:h-32" />
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold">200k+</h1>
-            <h2 className="text-base md:text-lg">Happy Customers</h2>
-          </div>
-        </div>
-        <div className="flex justify-center items-center gap-5">
-          <img src="/mechanic.png" alt="Years of Experience" className="w-24 h-24 md:w-32 md:h-32" />
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold">10+</h1>
-            <h2 className="text-base md:text-lg">Years of Experience</h2>
-          </div>
-        </div>
-        <div className="flex justify-center items-center gap-5">
-          <img src="/support.png" alt="Customer Support" className="w-24 h-24 md:w-32 md:h-32" />
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold">24/7</h1>
-            <h2 className="text-base md:text-lg">Customer Support</h2>
-          </div>
-        </div>
+        <a
+          href={whatsappLink}
+          target="_blank"
+          className="bg-green-500 px-6 py-3 rounded-lg"
+        >
+          Book on WhatsApp
+        </a>
       </div>
-      <div className='mt-3 md:mt-12 px-3 md:px-20 mb-4'>
-      <SingleBox></SingleBox>
-      </div>
-      <div className='mt-3 md:mt-12 px-3 md:px-20 mb-4'>
-      <BlogPost></BlogPost>
-      </div> */}
+
     </div>
   );
 }
