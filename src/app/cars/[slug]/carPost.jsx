@@ -152,7 +152,7 @@ export default function ListingPage({ slug }) {
                 {item.title}
               </h1>
               <h1 className="font-semibold text-4xl drop-shadow-lg">
-                {getCurrencySymbol(item.priceCurrency)} {item.price}
+                {getCurrencySymbol(item.priceCurrency)} {item.price} / KM
               </h1>
             </div>
 
@@ -161,9 +161,10 @@ export default function ListingPage({ slug }) {
             <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
                 { icon: FaCar, label: "Make", value: item.make },
-                { icon: FaCalendarAlt, label: "Year", value: item.year },
-                { icon: FaPalette, label: "Color", value: item.color },
-                { icon: FaDoorClosed, label: "Doors", value: item.numberOfDoors },
+                { icon: FaCar, label: "Model", value: item.model },
+                // { icon: FaCalendarAlt, label: "Year", value: item.year },
+                // { icon: FaPalette, label: "Color", value: item.color },
+                // { icon: FaDoorClosed, label: "Doors", value: item.numberOfDoors },
                 { icon: FaGasPump, label: "Fuel", value: item.fuelType },
                 { icon: FaUsers, label: "Seating", value: item.vehicleSeatingCapacity },
                 { icon: FaExchangeAlt, label: "Transmission", value: item.vehicleTransmission },

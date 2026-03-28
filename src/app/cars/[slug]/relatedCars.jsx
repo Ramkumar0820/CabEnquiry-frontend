@@ -87,13 +87,13 @@ function Listing() {
                                     {item.title.length > 20 ? `${item.title.substring(0, 20)}...` : item.title}
                                 </h1></Link>
 
-                            <p className="text-2xl font-semibold text-blue-950 ">{getCurrencySymbol(item.priceCurrency)}{" "}{item.price}</p>
+                            <p className="text-2xl font-semibold text-blue-950 ">{getCurrencySymbol(item.priceCurrency)}{" "}{item.price} / KM</p>
 
                             {/* Hidden on mobile, visible on medium and larger screens */}
                             <Divider className='my-2 hidden md:block' />
                             <div className='hidden md:grid grid-cols-2'>
                                 <p className="flex items-center mb-1"><FaGasPump className="mr-2 text-blue-950" />{item.fuelType}</p>
-                                <p className="flex items-center mb-1"><FaCar className="mr-2 text-blue-950" /> {item.bodyType} </p>
+                                <p className="flex items-center mb-1"><FaCar className="mr-2 text-blue-950" /> {item.make} </p>
                             </div>
                             <div className='hidden md:grid grid-cols-2'>
                                 <p className="flex items-center mb-1"><FaUsers className="mr-2 text-blue-950" /> {item.vehicleSeatingCapacity} Seats </p>
