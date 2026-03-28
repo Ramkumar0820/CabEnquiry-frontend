@@ -17,12 +17,12 @@ const AboutPage = () => {
       <div className="relative h-[300px] w-full">
         <Image
           src="/frame1.jpg"
-          alt="Madurai SRM Tourism & Travels"
+          alt="Madurai SRM Tours & Travels"
           fill
           className="object-cover"
         />
         <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-          <h1 className="text-white text-2xl lg: text-4xl font-bold p-2">About Madurai SRM Tourism & Travels</h1>
+          <h1 className="text-white text-2xl lg: text-4xl font-bold p-2">About Madurai SRM Tours & Travels</h1>
         </div>
       </div>
 
@@ -37,13 +37,13 @@ const AboutPage = () => {
           className="space-y-4 text-gray-700 leading-7"
         >
           <p class="text-2xl md:text-3xl font-bold md:font-medium">
-            <strong>Welcome to Madurai SRM Tourism & Travels</strong>
+            <strong>Welcome to Madurai SRM Tours & Travels</strong>
           </p>
 
           <p>
-            Madurai SRM Tourism & Travels is your trusted partner for comfortable,
+            Madurai SRM Tours & Travels is your trusted partner for comfortable,
             safe, and affordable travel services. We specialize in providing
-            reliable cab and travel solutions for local trips, outstation
+            reliable cab and travel solutions for local trips, rental, outstation
             journeys, airport transfers, and customized tour packages across
             Tamil Nadu and South India.
           </p>
@@ -95,6 +95,7 @@ const AboutPage = () => {
               <ul className="list-disc pl-6 space-y-2">
                 <li>Airport pickup and drop services</li>
                 <li>Local city rides</li>
+                <li>Car rental services (self-drive and chauffeur-driven)</li>
                 <li>Outstation cab booking</li>
                 <li>Tour packages and pilgrimage trips</li>
                 <li>Corporate travel services</li>

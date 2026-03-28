@@ -178,7 +178,7 @@ const Header = () => {
             onClick={toggleSidebar}
           />
         </div>
-        <div className="relative p-4">
+        {/* <div className="relative p-4">
           <Input
             type="text"
             color="primary"
@@ -207,7 +207,7 @@ const Header = () => {
               }}
             />
           )}
-        </div>
+        </div> */}
         <ul className="flex flex-col gap-4 p-4">
           <Link href="/">
             <li
@@ -222,7 +222,7 @@ const Header = () => {
               className="hover:text-primary cursor-pointer"
               onClick={toggleSidebar}
             >
-              Cars
+              Book a Cab
             </li>
           </Link>
           <Link href="/about-us">

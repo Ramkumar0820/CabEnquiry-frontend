@@ -10,7 +10,7 @@ import BlogPost from "@/components/block/blogPost";
 
 export default function App() {
   const message = `
-    Hi Madurai SRM Tourisms & Travels,
+    Hi Madurai SRM Tours & Travels,
     I would like to book a cab.
   `;
 
@@ -19,10 +19,6 @@ const whatsappLink =
   return (
     <div>
       <div className="top-main relative">
-        {/* <img
-          className="w-full h-500 object-cover object-center relative"
-          src="/bg.svg"
-          alt="Showroom" /> */}
         <video
           className="w-full h-[500px] object-cover object-center"
           src="/cover.mp4"
@@ -37,7 +33,7 @@ const whatsappLink =
               Your Journey, Our Priority
             </h1>
             <p className="text-xl mb-2 md:mb-8 text-white">
-              Book a cab in seconds and travel with comfort, safety, and unbeatable pricing.
+              From booking to arrival, your trip is our top priority. Travel with peace of mind—safe, comfortable, and affordable.
             </p>
           </div>
 
@@ -58,7 +54,7 @@ const whatsappLink =
       {/* ================= WHY CHOOSE US ================= */}
       <div className="bg-gray-100 py-12 mt-10">
         <div className="px-5 md:px-20 text-center">
-          <h2 className="text-3xl font-bold mb-8">Why Choose SRM Tourisms & Travels?</h2>
+          <h2 className="text-3xl font-bold mb-8">Why Choose SRM Tours & Travels?</h2>
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white p-6 shadow rounded-xl">

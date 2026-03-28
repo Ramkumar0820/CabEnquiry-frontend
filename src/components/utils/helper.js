@@ -1,6 +1,6 @@
 // Image URL Resolver
 export const resolveImageUrl = (image) => {
-  if (!image) return "/nodata.jpg";
+  if (!image) return "/nodata.png";
 
   // already absolute (http / https)
   if (image.startsWith("http://") || image.startsWith("https://")) {

@@ -8,9 +8,9 @@ import Footer from "@/components/template/footer"
 const inter = Poppins({ subsets: ["latin"], weight: ['100', '300', '700'], variable: '--poppins-font' });
 
 export const metadata = {
-  title: "Madurai SRM Tourism & Travels | Cab Booking, Airport Pickup & Outstation Trips",
+  title: "Madurai SRM Tours & Travels | Cab Booking, Airport Pickup & Outstation Trips",
   description:
-    "Madurai SRM Tourism & Travels offers reliable cab booking, airport pickup and drop, and outstation travel services across Chennai and Tamil Nadu. Book safe, comfortable, and affordable rides with experienced drivers.",
+    "Madurai SRM Tours & Travels offers reliable cab booking, airport pickup and drop, rental and outstation travel services across Madurai and Tamil Nadu. Book safe, comfortable, and affordable rides with experienced drivers.",
 };
 
 

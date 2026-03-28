@@ -30,7 +30,7 @@ export default function DestinationCarousel() {
           delay: 3000,
           disableOnInteraction: false,
         }}
-        navigation={true}
+        navigation={false}
         breakpoints={{
           0: { slidesPerView: 1 },
           768: { slidesPerView: 3 },

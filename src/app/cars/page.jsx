@@ -92,7 +92,7 @@ export default function Listing() {
     // Build WhatsApp message
     // ==========================
     const message = `
-    🚖 *SRM Tourisms & Travels - MADURAI*
+    🚖 *SRM Tours & Travels - MADURAI*
     --------------------------
     🚗 *New Booking Request*
 
@@ -148,7 +148,7 @@ export default function Listing() {
         <div className="relative h-[300px] w-full">
           <Image
             src="/frame1.jpg"
-            alt="Madurai SRM Tourisms & Travels"
+            alt="Madurai SRM Tours & Travels"
             fill
             className="object-cover"
           />
@@ -179,6 +179,8 @@ export default function Listing() {
             <SelectItem key="Local">Local</SelectItem>
             <SelectItem key="Outstation">Outstation</SelectItem>
             <SelectItem key="Rental">Rental</SelectItem>
+            <SelectItem key="Airport">Airport Pickup/Drop</SelectItem>
+            
             </Select>
 
             <div className="">

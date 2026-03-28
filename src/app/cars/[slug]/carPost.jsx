@@ -58,7 +58,7 @@ export default function ListingPage({ slug }) {
 
 
       const message = `
-      🚖 *SRM Tourism & Travels - MADURAI*
+      🚖 *SRM Tours & Travels - MADURAI*
       --------------------------
       🚗 *New Booking Request*
 
@@ -192,6 +192,7 @@ export default function ListingPage({ slug }) {
                     <option value="Local">Local</option>
                     <option value="Outstation">Outstation</option>
                     <option value="Rental">Rental</option>
+                    <option value="Airport">Airport Pickup/Drop</option>
                   </select>
                 </div>
 

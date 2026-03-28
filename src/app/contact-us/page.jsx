@@ -34,7 +34,7 @@ export default function ContactPage() {
       }
       let result = await response.json();
       const message = `
-      🚖 *SRM Tourisms & Travels - MADURAI*
+      🚖 *SRM Tours & Travels - MADURAI*
       --------------------------
       🚗 *New Booking Request*
 
@@ -80,7 +80,7 @@ export default function ContactPage() {
         <div className="relative h-[300px] w-full">
           <Image
           src="/frame1.jpg"
-          alt="Madurai SRM Tourisms & Travels"
+          alt="Madurai SRM Tours & Travels"
           fill
           className="object-cover"
           />

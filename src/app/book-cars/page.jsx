@@ -110,7 +110,7 @@ export default function BookingPage() {
         <div className="relative h-[300px] w-full">
           <Image
             src="/frame1.jpg"
-            alt="Madurai SRM Tourism & Travels"
+            alt="Madurai SRM Tours & Travels"
             fill
             className="object-cover"
           />
@@ -128,6 +128,7 @@ export default function BookingPage() {
                 <SelectItem key="Local">Local</SelectItem>
                 <SelectItem key="Outstation">Outstation</SelectItem>
                 <SelectItem key="Rental">Rental</SelectItem>
+                <SelectItem key="Airport">Airport Pickup/Drop</SelectItem>
               </Select>
 
               <div className="w-60">
