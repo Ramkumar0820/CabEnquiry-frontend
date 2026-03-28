@@ -102,26 +102,27 @@ export default function Listing() {
 
       await response.json();
 
-      const message = `
-🚖 SRM Tours & Travels - MADURAI
---------------------------
-🚗 New Booking Request
+    const message = `
+    🚖 *SRM Tours & Travels - MADURAI*
+    --------------------------
+    🚗 *New Booking Request*
 
-Name: ${data.name}
-Phone: ${data.mobile}
-Trip Type: ${tripType}
+    *Name:* ${data.name}
+    *Phone:* ${data.mobile}
+    *Trip Type:* ${tripType}
 
-Vehicle: ${selectedVehicle.make} ${selectedVehicle.model}
-Category: ${selectedVehicle.title}
+    *Vehicle:* ${selectedVehicle.make} ${selectedVehicle.model}
+    *Category:* ${selectedVehicle.title}
 
-Pickup: ${data.pickup}
-Drop: ${data.drop}
-Date: ${data.date}
+    *Pickup:* ${data.pickup}
+    *Drop:* ${data.drop}
+    *Date:* ${data.date}
 
-Price: ₹${selectedVehicle.price}/km
---------------------------
-Contact: +91 7871082904
-`;
+    *Price:* ₹${selectedVehicle.price}/km
+    --------------------------
+    📍 *Madurai's Trusted Travel Partner*
+    📞 *Contact: +91 7871082904 | +91 7806816229*
+    `;
 
       const whatsappUrl = `https://wa.me/917871082904?text=${encodeURIComponent(
         message
@@ -276,41 +277,143 @@ Contact: +91 7871082904
 
       {/* ================= Booking Modal ================= */}
       {showForm && selectedVehicle && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded w-full max-w-xl">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 h-full overfloy-y-auto">
+          <div className="bg-white p-6 rounded w-full max-w-3xl max-h-[90vh] overflow-y-auto">
             <h2 className="text-xl font-bold mb-4">
-              Booking: {selectedVehicle.make} {selectedVehicle.model}
+              Booking for {selectedVehicle.make} {selectedVehicle.model}
             </h2>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
-              <input
-                {...register("name", { required: true })}
-                placeholder="Name"
-                className="w-full border p-2"
-              />
-              <input
-                {...register("mobile", { required: true })}
-                placeholder="Mobile"
-                className="w-full border p-2"
-              />
-              <input
-                {...register("pickup", { required: true })}
-                placeholder="Pickup"
-                className="w-full border p-2"
-              />
-              <input
-                {...register("drop")}
-                placeholder="Drop"
-                className="w-full border p-2"
-              />
+            {/* ================= Responsive Grid Form ================= */}
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="grid grid-cols-1 md:grid-cols-2 gap-4"
+            >
+              <div>
+                <label className="block mb-2">Name</label>
+                <input
+                  {...register("name", { required: "Name is required" })}
+                  className="w-full rounded-xl bg-gray-100 px-4 py-3"
+                  placeholder="Enter name"
+                />
+                {errors.name && (
+                  <p className="text-red-500 text-sm">
+                    {errors.name.message}
+                  </p>
+                )}
+              </div>
 
-              <button
-                type="submit"
-                className="bg-green-600 text-white w-full py-2"
-              >
-                Confirm Booking
-              </button>
+              <div>
+                <label className="block mb-2">Mobile</label>
+                <input
+                  {...register("mobile", {
+                    required: "Mobile number is required",
+                    pattern: {
+                      value: /^[0-9]{10}$/,
+                      message: "Enter a valid 10-digit number",
+                    },
+                  })}
+                  className="w-full rounded-xl bg-gray-100 px-4 py-3"
+                  placeholder="Enter mobile number"
+                />
+                {errors.mobile && (
+                  <p className="text-red-500 text-sm">
+                    {errors.mobile.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="block mb-2">Email</label>
+                <input
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^\S+@\S+$/i,
+                      message: "Invalid email address",
+                    },
+                  })}
+                  className="w-full rounded-xl bg-gray-100 px-4 py-3"
+                  placeholder="Enter email"
+                />
+                {errors.email && (
+                  <p className="text-red-500 text-sm">
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="block mb-2">Pickup Location</label>
+                <input
+                  {...register("pickup", {
+                    required: "Pickup is required",
+                  })}
+                  className="w-full rounded-xl bg-gray-100 px-4 py-3"
+                  placeholder="Enter pickup area"
+                />
+              </div>
+
+              <div>
+                <label className="block mb-2">Pickup Landmark</label>
+                <input
+                  {...register("pickupLandmark")}
+                  className="w-full rounded-xl bg-gray-100 px-4 py-3"
+                  placeholder="Enter pickup landmark"
+                />
+              </div>
+
+              {tripType !== "Rental" && (
+                <div>
+                  <label className="block mb-2">Drop Location</label>
+                  <input
+                    {...register("drop", {
+                      required: "Drop is required",
+                    })}
+                    className="w-full rounded-xl bg-gray-100 px-4 py-3"
+                    placeholder="Enter drop area"
+                  />
+                </div>
+              )}
+
+              {tripType === "Rental" && (
+                <div>
+                  <label className="block mb-2">Rental Hours</label>
+                  <input
+                    {...register("rentalHours", {
+                      required: "Rental hours required",
+                    })}
+                    className="w-full rounded-xl bg-gray-100 px-4 py-3"
+                    placeholder="Enter hours"
+                  />
+                </div>
+              )}
+
+              <div className="md:col-span-2">
+                <label className="block mb-2">Travel Date</label>
+                <input
+                  type="date"
+                  {...register("date", {
+                    required: "Date is required",
+                  })}
+                  className="w-full rounded-xl bg-gray-100 px-4 py-3"
+                />
+              </div>
+              <div className="flex flex-wrap gap-2">
+                    <button
+                        type="submit"
+                        className="w-full lg:w-auto bg-[#154a87] hover:bg-[#154a87d6] text-white py-2 rounded text-white px-4"
+                    >
+                    Submit
+                    </button>
+                    <button
+                        onClick={() => setShowForm(false)}
+                        className="w-full lg:w-auto border border-black text-gray-500 py-2 rounded px-4 "
+                    >
+                        Cancel
+                    </button>
+              </div>
             </form>
+
           </div>
         </div>
       )}
