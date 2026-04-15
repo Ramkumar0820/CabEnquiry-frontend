@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next-sitemap",
     "start": "next start",
     "lint": "next lint"
   },
@@ -14,6 +14,7 @@
     "@nextui-org/theme": "^2.2.9",
     "framer-motion": "^11.18.2",
     "next": "14.2.5",
+    "next-sitemap": "^4.2.3",
     "razorpay": "^2.9.4",
     "react": "^18",
     "react-dom": "^18",
