@@ -1,6 +1,6 @@
 // /** @type {import('next-sitemap').IConfig} */
 // module.exports = {
-//   siteUrl: process.env.NEXT_PUBLIC_BASE_URL || 'https://www.nexcodez.com', // your domain
+//   siteUrl: process.env.NEXT_PUBLIC_BASE_URL || 'https://maduraisrmtravels.vercel.app/', // your domain
 //   generateRobotsTxt: true, // also generates robots.txt
 //   sitemapSize: 5000,
 //   changefreq: 'daily',
@@ -17,7 +17,7 @@
 
 // /** @type {import('next-sitemap').IConfig} */
 // module.exports = {
-//   siteUrl: process.env.NEXT_PUBLIC_BASE_URL || 'https://www.nexcodez.com',
+//   siteUrl: process.env.NEXT_PUBLIC_BASE_URL || 'https://maduraisrmtravels.vercel.app/',
 //   generateRobotsTxt: true,
 //   sitemapSize: 5000,
 //   changefreq: 'daily',
@@ -31,7 +31,7 @@
 //       { userAgent: '*', disallow: ['/admin', '/private'] }, // Block admin/private
 //     ],
 //     additionalSitemaps: [
-//       'https://www.nexcodez.com/sitemap.xml', // Main sitemap
+//       'https://maduraisrmtravels.vercel.app/sitemap.xml', // Main sitemap
 //     ],
 //   },
 
@@ -78,7 +78,7 @@
 
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.NEXT_PUBLIC_BASE_URL || 'https://www.nexcodez.com',
+  siteUrl: 'https://maduraisrmtravels.vercel.app/',
   generateRobotsTxt: true,
   sitemapSize: 50000,
   outDir: './public',
