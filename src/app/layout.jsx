@@ -3,7 +3,6 @@ import "./globals.css";
 import { Providers } from "./providers";
 import Header from "@/components/template/header"
 import Footer from "@/components/template/footer"
-// import TawkProvider from "./providers/tawkMessenger/TawkProvider";
 
 const inter = Poppins({ subsets: ["latin"], weight: ['100', '300', '700'], variable: '--poppins-font' });
 
@@ -11,8 +10,10 @@ export const metadata = {
   title: "Madurai SRM Tours & Travels | Cab Booking, Airport Pickup & Outstation Trips",
   description:
     "Madurai SRM Tours & Travels offers reliable cab booking, airport pickup and drop, rental and outstation travel services across Madurai and Tamil Nadu. Book safe, comfortable, and affordable rides with experienced drivers.",
+  verification: {
+    google: "iBHkP0laoxJUkWDxDeHBoqt6-5GK0SU7pksLZBaa1nk",
+  },
 };
-
 
 export default function RootLayout({
   children,
